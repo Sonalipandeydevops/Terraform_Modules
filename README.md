@@ -8,3 +8,4 @@ anothercomment
 making changes here
 
 adding pair of lines after that
+making changes here ||
