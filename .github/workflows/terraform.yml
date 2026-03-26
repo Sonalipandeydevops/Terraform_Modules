@@ -64,14 +64,14 @@ jobs:
 
 
       - name: Terraform Plan
-        if: ${{ github.event.inputs.action == 'plan' }}
+        if: github.event.inputs.action == 'plan'
         working-directory: ./env/Prod
         run: terraform plan -out=tfplan -var-file="prod_terraform.tfvars"
         env:
           ARM_USE_OIDC: true
 
       - name: Terraform Apply
-        if: ${{ github.event.inputs.action == 'apply' }}
+        if: github.event.inputs.action == 'apply'
         working-directory: ./env/Prod
         run: terraform apply -auto-approve tfplan
         env:
