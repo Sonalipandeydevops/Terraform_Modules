@@ -64,7 +64,7 @@ jobs:
 
 
       - name: Terraform Plan
-        if: github.event.inputs.action == 'apply'
+        if: github.event.inputs.action == 'plan'
         working-directory: ./env/Prod
         run: terraform plan -out=tfplan -var-file="prod_terraform.tfvars"
         env:
