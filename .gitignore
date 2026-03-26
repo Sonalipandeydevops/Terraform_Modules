@@ -3,8 +3,8 @@
 *.tfstate.*
 
 # Terraform variable files (may contain secrets)
-*.tfvars
-*.tfvars.json
+#*.tfvars
+#*.tfvars.json
 
 # Terraform plan output
 *.tfplan
