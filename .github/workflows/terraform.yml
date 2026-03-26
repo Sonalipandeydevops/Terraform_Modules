@@ -8,7 +8,7 @@ on:
     inputs:
       action:
         description: 'Action to run: plan, apply or destroy'
-        required: false
+        required: true
         default: 'plan'
 
 permissions:
@@ -64,7 +64,7 @@ jobs:
 
 
       - name: Terraform Plan
-        if: github.event.inputs.action == 'plan'
+        if: github.event.inputs.action == 'apply'
         working-directory: ./env/Prod
         run: terraform plan -out=tfplan -var-file="prod_terraform.tfvars"
         env:
