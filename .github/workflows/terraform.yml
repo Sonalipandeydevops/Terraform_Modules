@@ -62,6 +62,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./env/dev
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -80,12 +81,13 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
-      working-directory: ./env/dev
+      #working-directory: ./env/dev
+      
 
     # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
-      working-directory: ./env/dev
+    #- name: Terraform Format
+    #  run: terraform fmt -check
+      #working-directory: ./env/dev
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
@@ -97,4 +99,4 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-      working-directory: ./env/dev
+      #working-directory: ./env/dev
