@@ -56,7 +56,7 @@ jobs:
         
       - name: Terraform plan
         working-directory: ./env/dev
-        run: terraform plan -var-file="terraform.tfvars" -out=tfplan
+        run: terraform plan -var-file="prod_terraform.tfvars" -out=tfplan
         env:
           ARM_USE_OIDC: true
 
