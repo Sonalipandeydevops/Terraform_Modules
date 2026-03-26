@@ -84,14 +84,14 @@ jobs:
 
       - name: Terraform Destroy Plan
         if: github.event.inputs.action == 'destroy'
-        run: terraform plan -destroy -out=destroy.tfplan -var-file="terraform.tfvars"
+        run: terraform plan -destroy -out=dtfplan -var-file="terraform.tfvars"
         working-directory: ./env/dev
         env:
           ARM_USE_OIDC: true
 
       - name: Terraform Destroy
         if: github.event.inputs.action == 'destroy'
-        run: terraform apply -auto-approve destroy.tfplan
+        run: terraform destroy -auto-approve dtfplan
         working-directory: ./env/dev
         env:
           ARM_USE_OIDC: true
