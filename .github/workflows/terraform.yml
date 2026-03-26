@@ -9,6 +9,7 @@ on:
       action:
         description: 'Action to run: plan, apply or destroy'
         required: true
+        default: 'plan'
         
 
 permissions:
@@ -49,11 +50,10 @@ jobs:
         run: terraform init
         
 
-      - name: Terraform Plan
-        working-directory: ./env/dev
-        run: terraform plan -var-file="terraform.tfvars" -out=tfplan
-        env:
-          ARM_USE_OIDC: true
+#       working-directory: ./env/dev
+ #       run: terraform plan -var-file="terraform.tfvars" -out=tfplan
+  #      env:
+   #       ARM_USE_OIDC: true
 #
 #      - name: Terraform Apply
 #        working-directory: ./env/dev
@@ -63,12 +63,12 @@ jobs:
 #         ARM_USE_OIDC: true
 
 
-#      - name: Terraform Plan
-#        if: github.event.inputs.action == 'plan'
-#        working-directory: ./env/Prod
-#        run: terraform plan -out=tfplan -var-file="prod_terraform.tfvars"
-#        env:
-#          ARM_USE_OIDC: true
+      - name: Terraform Plan
+        if: github.event.inputs.action == 'apply'
+        working-directory: ./env/Prod
+        run: terraform plan -out=tfplan -var-file="prod_terraform.tfvars"
+        env:
+          ARM_USE_OIDC: true
 
       - name: Terraform Apply
         if: github.event.inputs.action == 'apply'
