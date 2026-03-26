@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to run: plan, apply or destroy'
+        required: false
+        default: 'plan'
 
 permissions:
   id-token: write
@@ -43,23 +49,51 @@ jobs:
         run: terraform init
         
 
-      - name: Terraform Plan
+#      - name: Terraform Plan
+#        working-directory: ./env/dev
+#        run: terraform plan -var-file="terraform.tfvars" -out=tfplan
+#        env:
+#         ARM_USE_OIDC: true
+#
+#      - name: Terraform Apply
+#        working-directory: ./env/dev
+#        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#        run: terraform apply -auto-approve tfplan
+#        env:
+#         ARM_USE_OIDC: true
+
+#      - name: Terraform Destroy
+#        working-directory: ./env/dev
+#        run: terraform destroy
+#        env:
+#         ARM_USE_OIDC: true
+
+      - name: Terraform Plan (Apply)
+        if: github.event.inputs.action == 'apply'
+        run: terraform plan -out=tfplan -var-file="terraform.tfvars"
         working-directory: ./env/dev
-        run: terraform plan -var-file="terraform.tfvars" -out=tfplan
         env:
-         ARM_USE_OIDC: true
+          ARM_USE_OIDC: true
 
       - name: Terraform Apply
-        working-directory: ./env/dev
-        #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.event.inputs.action == 'apply'
         run: terraform apply -auto-approve tfplan
+        working-directory: ./env/dev
         env:
-         ARM_USE_OIDC: true
+          ARM_USE_OIDC: true
+
+      - name: Terraform Destroy Plan
+        if: github.event.inputs.action == 'destroy'
+        run: terraform plan -destroy -out=destroy.tfplan -var-file="terraform.tfvars"
+        working-directory: ./env/dev
+        env:
+          ARM_USE_OIDC: true
 
       - name: Terraform Destroy
+        if: github.event.inputs.action == 'destroy'
+        run: terraform apply -auto-approve destroy.tfplan
         working-directory: ./env/dev
-        run: terraform destroy
         env:
-         ARM_USE_OIDC: true
+          ARM_USE_OIDC: true
 
 
