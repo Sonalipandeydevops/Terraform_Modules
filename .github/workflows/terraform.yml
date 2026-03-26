@@ -55,3 +55,11 @@ jobs:
         run: terraform apply -auto-approve tfplan
         env:
          ARM_USE_OIDC: true
+
+      - name: Terraform Destroy
+        working-directory: ./env/dev
+        run: terraform destroy
+        env:
+         ARM_USE_OIDC: true
+
+
