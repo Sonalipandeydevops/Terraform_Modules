@@ -55,13 +55,13 @@ jobs:
         run: terraform init
         
       - name: Terraform plan
-        working-directory: ./env/dev
+        working-directory: ./env/Prod
         run: terraform plan -var-file="prod_terraform.tfvars" -out=tfplan
         env:
           ARM_USE_OIDC: true
 
       - name: Terraform Apply
-        working-directory: ./env/dev
+        working-directory: ./env/Prod
         #if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
         env:
