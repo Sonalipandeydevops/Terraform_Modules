@@ -79,6 +79,8 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
+        terraform_version: 1.6.6
+      
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -101,5 +103,6 @@ jobs:
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-      run: terraform apply -auto-approve "tfplan"
+      #run: terraform apply -auto-approve "tfplan"
+      run: terraform apply -auto-approve -var-file="prod.tfvars" "tf plan"
       #working-directory: ./env/dev
