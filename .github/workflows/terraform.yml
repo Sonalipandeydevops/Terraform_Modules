@@ -91,7 +91,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -var-file = terraform.tfvars
+      run: terraform plan -var-file="./env/dev/terraform.tfvars"
       working-directory: ./env/dev
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
